@@ -1,9 +1,9 @@
 #include <iostream>
 #include "Quadtree.hpp"
 
-Quadtree::Quadtree(unsigned int d, Rect r)
+Quadtree::Quadtree(Quadtree *parent, Rect r)
 {
-	depth  = d;
+	this->parent = parent;
 	bounds = r;
 }
 
@@ -27,7 +27,7 @@ Quadtree::~Quadtree()
 
 void Quadtree::split()
 {
-	nodes = new std::array<Quadtree,4>;
+	nodes = new std::array<Quadtree,4>{{ {this, {1,1,1,1}}, this, this, this }};
 }
 
 
@@ -67,9 +67,16 @@ void Quadtree::report(unsigned int depth)
 	std::cout << indent << "Quadtree at: " << this << std::endl;
 	std::cout << indent << "\tbounds.{x,y}: " << bounds.x << "," << bounds.y << std::endl;
 	std::cout << indent << "\tbounds.{w,h}: " << bounds.w << "," << bounds.w << std::endl;
-	std::cout << indent << "\tnodes at: " << nodes << std::endl;
+	std::cout << indent << "\tparent: " << parent << std::endl;
+	std::cout << indent << "\tnodes: " << nodes << std::endl;
 
 	if(nodes)
 		for(auto &n: *nodes)
 			n.report(depth+1);
+}
+
+
+Quadtree *Quadtree::getParent()
+{
+	return parent;
 }

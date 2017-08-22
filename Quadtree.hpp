@@ -10,7 +10,8 @@
 class Quadtree{
 
 public:
-	Quadtree(unsigned int, Rect);
+	Quadtree(Quadtree *, Rect={0,0,0,0});
+	Quadtree(unsigned int, Rect={0,0,0,0});
 	Quadtree();
 	virtual ~Quadtree();
 	void split();
@@ -18,12 +19,13 @@ public:
 	void insert(int, int);
 	void clear();
 	void report(unsigned int=0);
+	Quadtree *getParent();
 
 private:
+	Quadtree *parent;
 	unsigned int depth;
 	Rect bounds;
 	std::array<Quadtree,4> *nodes;
-	Quadtree *parent;
 };
 
 
