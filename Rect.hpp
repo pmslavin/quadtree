@@ -9,4 +9,10 @@ public:
 	int h;
 };
 
+class Point{
+public:
+	int x;
+	int y;
+};
+
 #endif

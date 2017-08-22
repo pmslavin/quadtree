@@ -5,7 +5,15 @@ Quadtree::Quadtree(Quadtree *parent, Rect r)
 {
 	this->parent = parent;
 	bounds = r;
+	nodes = nullptr;
 }
+
+
+//Quadtree::Quadtree(unsigned int d, Rect r)
+//{
+//	depth = d;
+//	bounds = r;
+//}
 
 
 Quadtree::Quadtree()
@@ -27,21 +35,50 @@ Quadtree::~Quadtree()
 
 void Quadtree::split()
 {
-	nodes = new std::array<Quadtree,4>{{ {this, {1,1,1,1}}, this, this, this }};
+	nodes = new std::array<Quadtree,4>{{ {this, {bounds.x,bounds.y,bounds.w/2,bounds.h/2}},
+										 {this, {bounds.x+bounds.w/2,bounds.y,bounds.w/2,bounds.h/2}},
+										 {this, {bounds.x+bounds.w/2,bounds.y+bounds.h/2,bounds.w/2,bounds.h/2}},
+										 {this, {bounds.x,bounds.y+bounds.h/2,bounds.w/2,bounds.h/2}},
+									  }};
 }
 
 
-Quadtree *Quadtree::region(int x, int y)
+Quadtree *Quadtree::region(Point *p)
 {
-	(void)x;
-	(void)y;
+	if(p->x >= bounds.x && p->x < bounds.x+bounds.w && p->y >= bounds.y && p->y < bounds.y+bounds.h)
+		return this;
+
 	return nullptr;
 }
 
-void insert(int x, int y)
+
+Quadtree *Quadtree::insert(Point *p)
 {
-	(void)x;
-	(void)y;
+	if(points.size() < MAX_ELEMS && !nodes){
+		points.push_back(p);
+		return this;
+	}
+
+	if(!nodes){
+		split();
+		for(size_t i=0; i<points.size(); ++i){
+			for(auto &n: *nodes){
+				if(n.region(points[i])){
+					n.insert(points[i]);
+					points.erase(points.begin()+i, points.begin()+i+1);
+				}
+			}
+
+		}
+	}
+
+
+	for(auto &n: *nodes){
+		if(n.region(p))
+			n.insert(p);
+	}
+
+	return nullptr;
 }
 
 
@@ -66,9 +103,12 @@ void Quadtree::report(unsigned int depth)
 
 	std::cout << indent << "Quadtree at: " << this << std::endl;
 	std::cout << indent << "\tbounds.{x,y}: " << bounds.x << "," << bounds.y << std::endl;
-	std::cout << indent << "\tbounds.{w,h}: " << bounds.w << "," << bounds.w << std::endl;
+	std::cout << indent << "\tbounds.{w,h}: " << bounds.w << "," << bounds.h << std::endl;
 	std::cout << indent << "\tparent: " << parent << std::endl;
 	std::cout << indent << "\tnodes: " << nodes << std::endl;
+
+	for(auto &p: points)
+		std::cout << indent << "\t\tpoint.{x,y}: " << p->x << "," << p->y << std::endl;
 
 	if(nodes)
 		for(auto &n: *nodes)
@@ -79,4 +119,10 @@ void Quadtree::report(unsigned int depth)
 Quadtree *Quadtree::getParent()
 {
 	return parent;
+}
+
+
+const Rect Quadtree::getRect() const
+{
+	return bounds;
 }

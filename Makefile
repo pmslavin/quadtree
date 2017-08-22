@@ -4,10 +4,10 @@ CPP		 := g++
 CFLAGS   := -std=c99 -O2
 CPPFLAGS := -std=c++11 -O2
 WARN     := -Wall -Wextra -Wno-format -pedantic
-LIBS     :=
+LIBS     := -lm -lSDL2
 INCPATH  :=
 LDPATH   :=
-OBJECTS  := main.o Quadtree.o
+OBJECTS  := main.o Quadtree.o Frame.o
 
 all:	main
 
@@ -19,6 +19,9 @@ main.o: main.cpp
 
 Quadtree.o: Quadtree.cpp Quadtree.hpp
 	${CPP} ${CPPFLAGS} ${WARN} -c Quadtree.cpp
+
+Frame.o: Frame.cpp Frame.hpp
+	${CPP} ${CPPFLAGS} ${WARN} -c Frame.cpp
 
 
 clean:
