@@ -4,6 +4,7 @@
 #include <array>
 #include <vector>
 #include "Rect.hpp"
+#include "Point.hpp"
 
 #define MAX_ELEMS 2
 #define MAX_DEPTH 5
@@ -21,12 +22,12 @@ public:
 	void report(unsigned int=0);
 	Quadtree *getParent();
 	const Rect getRect() const;
+	unsigned int calcCollisions();
 	friend void drawQuadtree(Quadtree *);
 private:
-	std::array<Quadtree,4> *nodes;
 	Quadtree *parent;
-	unsigned int depth;
 	Rect bounds;
+	std::array<Quadtree,4> *nodes;
 	std::vector<Point *> points;
 };
 

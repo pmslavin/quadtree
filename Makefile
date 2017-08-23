@@ -7,7 +7,7 @@ WARN     := -Wall -Wextra -Wno-format -pedantic
 LIBS     := -lm -lSDL2
 INCPATH  :=
 LDPATH   :=
-OBJECTS  := main.o Quadtree.o Frame.o
+OBJECTS  := main.o Quadtree.o Frame.o Point.o
 
 all:	main
 
@@ -22,6 +22,9 @@ Quadtree.o: Quadtree.cpp Quadtree.hpp
 
 Frame.o: Frame.cpp Frame.hpp
 	${CPP} ${CPPFLAGS} ${WARN} -c Frame.cpp
+
+Point.o: Point.cpp Point.hpp
+	${CPP} ${CPPFLAGS} ${WARN} -c Point.cpp
 
 
 clean:

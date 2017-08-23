@@ -1,19 +1,17 @@
 #include <iostream>
 #include "Quadtree.hpp"
 
-Quadtree::Quadtree(Quadtree *parent, Rect r)
+Quadtree::Quadtree(Quadtree *parent, Rect r) : parent(parent),
+											   bounds(r),
+											   nodes(nullptr)
 {
-	this->parent = parent;
-	bounds = r;
-	nodes = nullptr;
 }
 
 
-Quadtree::Quadtree()
+Quadtree::Quadtree() : parent(nullptr),
+					   bounds({0,0,0,0}),
+					   nodes(nullptr)
 {
-	bounds = {0,0,0,0};
-	nodes  = nullptr;
-	parent = nullptr;
 }
 
 
@@ -120,4 +118,25 @@ Quadtree *Quadtree::getParent()
 const Rect Quadtree::getRect() const
 {
 	return bounds;
+}
+
+
+unsigned int Quadtree::calcCollisions()
+{
+	if(nodes){
+		for(auto &n: *nodes)
+			n.calcCollisions();
+	}
+
+	size_t p,o;
+
+	for(p=0; p<points.size(); ++p){
+		for(o=0; o<points.size(); ++o){
+			if(p==o)
+				break;
+			points[p]->collides(*points[o]);
+		}
+	}
+
+	return 0;
 }

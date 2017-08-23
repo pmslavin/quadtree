@@ -1,16 +1,17 @@
 #include "Frame.hpp"
 #include "math.h"
 
+double randFunc();
+
 
 void test_tree()
 {
-	Quadtree root(nullptr, {0,0,1024,768});
-
 	initialise();
 	std::vector<Point> points;
 
-	for(int i=0; i<200; ++i)
-		points.push_back({(int)(i*W/200.0), (int)(H/2+rand()%H/2*sin(2*i*M_PI/100.0))});
+	for(int i=0; i<480; ++i)
+		points.push_back({i*W/480.0, H/2+rand()%H/2*sin(2*i*M_PI/240.0), randFunc(), randFunc()});
+//		points.push_back({(int)(i*W/200.0), (int)(H/2+rand()%H/2*sin(2*i*M_PI/100.0)), (double)6.0*(drand48()-0.5), (double)6.0*(drand48()-0.5)} );
 //		points.push_back({(int)(i*W/200.0), (int)(H/2+H/2*sin(i*M_PI/100.0))});
 
 /*
@@ -25,15 +26,34 @@ void test_tree()
 	wait();
 
 	for(auto &p: points){
-		root.insert(&p);
 		drawPoint(p);
-		drawQuadtree(&root);
 		update();
-		pause(100);
+		pause(10);
 	}
 
-	root.report();
 	wait();
+
+	for(int t=0; t<8000; ++t){
+		Quadtree steptree(nullptr, {0,0,1024,768});
+		for(auto &p: points){
+			steptree.insert(&p);
+			drawPoint(p);
+//			drawQuadtree(&steptree);
+			p.step();
+		}
+		update();
+		steptree.calcCollisions();
+		pause(80);
+		poll();
+		clear();
+	}
+	wait();
+}
+
+
+double randFunc()
+{
+	return ((rand()|1)&15)*(drand48()-0.5);
 }
 
 

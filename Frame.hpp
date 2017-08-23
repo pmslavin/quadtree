@@ -12,5 +12,7 @@ void drawQuadtree(Quadtree *);
 void pause(unsigned int);
 void drawPoint(Point);
 void wait();
+void clear();
+void poll();
 
 #endif

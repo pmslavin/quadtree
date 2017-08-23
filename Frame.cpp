@@ -26,6 +26,7 @@ void initialise()
 void update()
 {
 	SDL_RenderPresent(renderer);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 }
 
 
@@ -43,18 +44,36 @@ void drawQuadtree(Quadtree *q)
 
 void drawPoint(Point p)
 {
+	SDL_Rect r = {int(p.x), int(p.y), P_SZ, P_SZ};
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-	SDL_RenderDrawPoint(renderer, p.x,   p.y);
-	SDL_RenderDrawPoint(renderer, p.x+1, p.y);
-	SDL_RenderDrawPoint(renderer, p.x,   p.y+1);
-	SDL_RenderDrawPoint(renderer, p.x+1, p.y+1);
+//	SDL_RenderDrawPoint(renderer, p.x,   p.y);
+//	SDL_RenderDrawPoint(renderer, p.x+1, p.y);
+//	SDL_RenderDrawPoint(renderer, p.x,   p.y+1);
+//	SDL_RenderDrawPoint(renderer, p.x+1, p.y+1);
+	SDL_RenderFillRect(renderer, &r);
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+}
+
+
+void clear()
+{
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderClear(renderer);
 }
 
 
 void pause(unsigned int t)
 {
 	SDL_Delay(t);
+}
+
+
+void poll()
+{
+	SDL_Event e;
+	if(SDL_PollEvent(&e))
+        if(e.type == SDL_KEYDOWN)
+			exit(0);
 }
 
 
