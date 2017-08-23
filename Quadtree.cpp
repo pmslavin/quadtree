@@ -9,13 +9,6 @@ Quadtree::Quadtree(Quadtree *parent, Rect r)
 }
 
 
-//Quadtree::Quadtree(unsigned int d, Rect r)
-//{
-//	depth = d;
-//	bounds = r;
-//}
-
-
 Quadtree::Quadtree()
 {
 	bounds = {0,0,0,0};
@@ -65,17 +58,19 @@ Quadtree *Quadtree::insert(Point *p)
 			for(auto &n: *nodes){
 				if(n.region(points[i])){
 					n.insert(points[i]);
-					points.erase(points.begin()+i, points.begin()+i+1);
+					points[i] = nullptr;
+					break;
 				}
 			}
-
 		}
+		points.clear();
 	}
 
-
 	for(auto &n: *nodes){
-		if(n.region(p))
+		if(n.region(p)){
 			n.insert(p);
+			break;
+		}
 	}
 
 	return nullptr;

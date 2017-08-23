@@ -1,8 +1,8 @@
 TARGET   := main
 CC       := gcc
 CPP		 := g++
-CFLAGS   := -std=c99 -O2
-CPPFLAGS := -std=c++11 -O2
+CFLAGS   := -g -std=c99 -O2
+CPPFLAGS := -g -std=c++11 -O2
 WARN     := -Wall -Wextra -Wno-format -pedantic
 LIBS     := -lm -lSDL2
 INCPATH  :=

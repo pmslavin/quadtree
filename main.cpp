@@ -10,7 +10,8 @@ void test_tree()
 	std::vector<Point> points;
 
 	for(int i=0; i<200; ++i)
-		points.push_back({(int)(i*W/200.0), (int)(H/2+H/2*sin(i*M_PI/100.0))});
+		points.push_back({(int)(i*W/200.0), (int)(H/2+rand()%H/2*sin(2*i*M_PI/100.0))});
+//		points.push_back({(int)(i*W/200.0), (int)(H/2+H/2*sin(i*M_PI/100.0))});
 
 /*
 	points.push_back({400, 320});

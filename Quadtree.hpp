@@ -5,7 +5,7 @@
 #include <vector>
 #include "Rect.hpp"
 
-#define MAX_ELEMS 1
+#define MAX_ELEMS 2
 #define MAX_DEPTH 5
 
 class Quadtree{
