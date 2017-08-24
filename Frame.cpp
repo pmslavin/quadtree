@@ -44,13 +44,18 @@ void drawQuadtree(Quadtree *q)
 
 void drawPoint(Point p)
 {
-	SDL_Rect r = {int(p.x), int(p.y), P_SZ, P_SZ};
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-//	SDL_RenderDrawPoint(renderer, p.x,   p.y);
-//	SDL_RenderDrawPoint(renderer, p.x+1, p.y);
-//	SDL_RenderDrawPoint(renderer, p.x,   p.y+1);
-//	SDL_RenderDrawPoint(renderer, p.x+1, p.y+1);
-	SDL_RenderFillRect(renderer, &r);
+
+	SDL_RenderDrawLine(renderer, p.x-1, p.y-3, p.x+2, p.y-3);
+	SDL_RenderDrawLine(renderer, p.x-2, p.y-2, p.x+3, p.y-2);
+
+	SDL_RenderDrawLine(renderer, p.x-3, p.y-1, p.x+4, p.y-1);
+	SDL_RenderDrawLine(renderer, p.x-3, p.y,   p.x+4, p.y);
+	SDL_RenderDrawLine(renderer, p.x-3, p.y+1, p.x+4, p.y+1);
+
+	SDL_RenderDrawLine(renderer, p.x-2, p.y+2, p.x+3, p.y+2);
+	SDL_RenderDrawLine(renderer, p.x-1, p.y+3, p.x+2, p.y+3);
+
 	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 }
 

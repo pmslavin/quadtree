@@ -128,13 +128,11 @@ unsigned int Quadtree::calcCollisions()
 			n.calcCollisions();
 	}
 
-	size_t p,o;
+	size_t p,q;
 
 	for(p=0; p<points.size(); ++p){
-		for(o=0; o<points.size(); ++o){
-			if(p==o)
-				break;
-			points[p]->collides(*points[o]);
+		for(q=p+1; q<points.size(); ++q){
+			points[p]->collides(*points[q]);
 		}
 	}
 

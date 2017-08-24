@@ -3,6 +3,7 @@
 
 double randFunc();
 
+int fps = 30;
 
 void test_tree()
 {
@@ -43,7 +44,7 @@ void test_tree()
 		}
 		update();
 		steptree.calcCollisions();
-		pause(80);
+		pause(1000.0/fps);
 		poll();
 		clear();
 	}
