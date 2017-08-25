@@ -2,38 +2,29 @@
 #include "math.h"
 
 double randFunc();
+void populate_sine_rand(const unsigned int, std::vector<Point>&);
+void populate_wheel(const unsigned int, std::vector<Point>&);
 
-int fps = 30;
-int npoints = 240;
+void (*populate)(const unsigned int, std::vector<Point>&);
+const int fps = 30;
+const unsigned int npoints = 1<<12;
 
 void test_tree()
 {
 	initialise();
 	std::vector<Point> points;
 
-	for(int i=0; i<npoints; ++i)
-		points.push_back({i*W/(double)npoints, H/2+rand()%H/2*sin(2*i*M_PI/(npoints/2.0)), randFunc(), randFunc()});
-//		points.push_back({(int)(i*W/200.0), (int)(H/2+rand()%H/2*sin(2*i*M_PI/100.0)), (double)6.0*(drand48()-0.5), (double)6.0*(drand48()-0.5)} );
-//		points.push_back({(int)(i*W/200.0), (int)(H/2+H/2*sin(i*M_PI/100.0))});
-
-/*
-	points.push_back({400, 320});
-	points.push_back({800, 320});
-	points.push_back({400, 640});
-	points.push_back({800, 640});
-	points.push_back({420, 320});
-	points.push_back({540, 100});
-	points.push_back({800, 210});
-*/
+//	populate = &populate_sine_rand;
+	populate = &populate_wheel;
+	populate(npoints, points);
 	wait();
 
 	for(auto &p: points){
 		drawPoint(p);
-//		update();
-//		pause(10);
+		update();
 	}
-	update();
 
+	update();
 	wait();
 
 	for(int t=0; t<8000; ++t){
@@ -54,9 +45,38 @@ void test_tree()
 }
 
 
+void populate_sine_rand(const unsigned int npoints, std::vector<Point> &points)
+{
+	for(unsigned int i=0; i<npoints; ++i)
+		points.push_back({i*W/(double)npoints, H/2+rand()%H/2*sin(2*i*M_PI/(npoints/2.0)), randFunc(), randFunc()});
+}
+
+
+void populate_wheel(const unsigned int npoints, std::vector<Point> &points)
+{
+	unsigned int t=1;
+	int xorig = W/2;
+	int yorig = H/2;
+	int x,y;
+	int rbase = 40;
+
+	double r, theta;
+
+	while(t<npoints){
+		r = rbase + yorig/(double)npoints*t + rand()%(int)(rbase*(2-t/(double)npoints));
+		theta = 8*M_PI*t/npoints;
+		x = xorig + r*cos(theta);
+		y = yorig - r*sin(theta);
+
+		points.push_back({(double)x, (double)y, 0.05*r*cos(theta), -0.04*r*sin(theta)});
+		t++;
+	}
+}
+
+
 double randFunc()
 {
-	return ((rand()|1)&7)*(drand48()-0.5);
+	return ((rand()|1)&15)*(drand48()-0.5);
 }
 
 

@@ -4,7 +4,7 @@
 #define W 1024
 #define H 768
 
-#define P_SZ 4
+#define P_SZ 2
 
 class Point{
 public:

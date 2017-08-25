@@ -16,22 +16,21 @@ void initialise()
 	texture  = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, W, H);
 	surface  = SDL_CreateRGBSurface(0, W, H, 32, 0, 0, 0, 0);
 
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
 	update();
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 }
 
 
 void update()
 {
 	SDL_RenderPresent(renderer);
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 }
 
 
 void drawQuadtree(Quadtree *q)
 {
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_Rect sr	= {q->bounds.x, q->bounds.y, q->bounds.w, q->bounds.h};
 	SDL_RenderDrawRect(renderer, &sr);
 
@@ -44,8 +43,13 @@ void drawQuadtree(Quadtree *q)
 
 void drawPoint(Point p)
 {
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
-
+	SDL_SetRenderDrawColor(renderer, 0x28, 0xcc, 0x22, 0xFF);
+	SDL_RenderDrawPoint(renderer, p.x, p.y);
+	SDL_RenderDrawPoint(renderer, p.x+1, p.y);
+	SDL_RenderDrawPoint(renderer, p.x, p.y+1);
+	SDL_RenderDrawPoint(renderer, p.x+1, p.y+1);
+/* Radius 4 circle */
+/*
 	SDL_RenderDrawLine(renderer, p.x-1, p.y-3, p.x+2, p.y-3);
 	SDL_RenderDrawLine(renderer, p.x-2, p.y-2, p.x+3, p.y-2);
 
@@ -55,14 +59,13 @@ void drawPoint(Point p)
 
 	SDL_RenderDrawLine(renderer, p.x-2, p.y+2, p.x+3, p.y+2);
 	SDL_RenderDrawLine(renderer, p.x-1, p.y+3, p.x+2, p.y+3);
-
-	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+*/
 }
 
 
 void clear()
 {
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(renderer);
 }
 

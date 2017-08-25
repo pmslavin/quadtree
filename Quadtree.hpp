@@ -6,8 +6,7 @@
 #include "Rect.hpp"
 #include "Point.hpp"
 
-#define MAX_ELEMS 2
-#define MAX_DEPTH 5
+#define MAX_ELEMS 5
 
 class Quadtree{
 

@@ -18,15 +18,15 @@ bool Point::collides(Point &other)
 	double hypot = sqrt(xd*xd+yd*yd);
 
 	/* Fix */
-	if(hypot < 2.0*P_SZ){
-		double cdrag = 0.8401;
+	if(hypot <= 2.0*P_SZ){
+		double cdrag = 0.9401;
 
 		double lhspeed  = sqrt(dx*dx+dy*dy);
 		double rhspeed  = sqrt(other.dx*other.dx+other.dy*other.dy);
 
 		double theta = atan2(yd,xd) + M_PI_2;
-		double phi   = atan2(dy,dx) + M_PI_2;
-		double rho   = atan2(other.dy,other.dx) + M_PI_2;
+//		double phi   = atan2(dy,dx) + M_PI_2;
+//		double rho   = atan2(other.dy,other.dx) + M_PI_2;
 
 		double av_x = sin(theta) * rhspeed;
 		double av_y = cos(theta) * rhspeed;
@@ -64,7 +64,7 @@ void Point::step()
 	x += dx;
 	y += dy;
 
-	dy += 0.07;
+	dy += 0.04;
 
 	if(x-P_SZ < 1 || x+P_SZ >= W)
 		dx = -dx;
