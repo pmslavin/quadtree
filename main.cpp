@@ -21,7 +21,7 @@ void test_tree()
 
 	for(auto &p: points){
 		drawPoint(p);
-		update();
+//		update();
 	}
 
 	update();
@@ -32,11 +32,13 @@ void test_tree()
 		for(auto &p: points){
 			steptree.insert(&p);
 			drawPoint(p);
+		}
+		update();
+		steptree.calcCollisions();
+		for(auto &p: points){
 			p.step();
 		}
 //		drawQuadtree(&steptree);
-		update();
-		steptree.calcCollisions();
 		pause(1000.0/fps);
 		poll();
 		clear();
@@ -58,17 +60,17 @@ void populate_wheel(const unsigned int npoints, std::vector<Point> &points)
 	int xorig = W/2;
 	int yorig = H/2;
 	int x,y;
-	int rbase = 40;
+	int rbase = 30;
 
 	double r, theta;
 
 	while(t<npoints){
-		r = rbase + yorig/(double)npoints*t + rand()%(int)(rbase*(2-t/(double)npoints));
-		theta = 8*M_PI*t/npoints;
+		r = rbase + 0.8*yorig/(double)npoints*t + rand()%(int)(rbase*(2-t/(double)npoints));
+		theta = 6*M_PI*t/npoints;
 		x = xorig + r*cos(theta);
 		y = yorig - r*sin(theta);
 
-		points.push_back({(double)x, (double)y, 0.05*r*cos(theta), -0.04*r*sin(theta)});
+		points.push_back({(double)x, (double)y, 0.02*r*cos(theta+M_PI_2), -0.02*r*sin(theta+M_PI_2)});
 		t++;
 	}
 }

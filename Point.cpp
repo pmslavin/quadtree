@@ -18,8 +18,8 @@ bool Point::collides(Point &other)
 	double hypot = sqrt(xd*xd+yd*yd);
 
 	/* Fix */
-	if(hypot <= 2.0*P_SZ){
-		double cdrag = 0.9401;
+	if(hypot < 2.0*P_SZ){
+		double cdrag = 0.9;
 
 		double lhspeed  = sqrt(dx*dx+dy*dy);
 		double rhspeed  = sqrt(other.dx*other.dx+other.dy*other.dy);
@@ -47,8 +47,8 @@ bool Point::collides(Point &other)
 		other.dy = cos(av_angle)*av_len*cdrag;;
 
 		double intersect = 0.5*(2*P_SZ - hypot+1.0);
-		x += sin(theta)*intersect;
-		y -= cos(theta)*intersect;
+		x 		+= sin(theta)*intersect;
+		y 		-= cos(theta)*intersect;
 		other.x -= sin(theta)*intersect;
 		other.y += cos(theta)*intersect;
 
@@ -64,11 +64,25 @@ void Point::step()
 	x += dx;
 	y += dy;
 
-	dy += 0.04;
 
-	if(x-P_SZ < 1 || x+P_SZ >= W)
+	if(x > W-P_SZ){
 		dx = -dx;
+		x = W-P_SZ;
+	}
 
-	if(y-P_SZ < 1 || y+P_SZ >= H)
+	if(x < P_SZ){
+		dx = -dx;
+		x = P_SZ;
+	}
+
+	if(y > H-P_SZ){
 		dy = -dy;
+		y = H-P_SZ;
+	}
+
+	if(y < P_SZ){
+		dy = -dy;
+		y = P_SZ;
+	}
+	dy += 0.04;
 }

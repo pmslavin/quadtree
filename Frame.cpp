@@ -43,11 +43,20 @@ void drawQuadtree(Quadtree *q)
 
 void drawPoint(Point p)
 {
+
 	SDL_SetRenderDrawColor(renderer, 0x28, 0xcc, 0x22, 0xFF);
+/*
 	SDL_RenderDrawPoint(renderer, p.x, p.y);
 	SDL_RenderDrawPoint(renderer, p.x+1, p.y);
 	SDL_RenderDrawPoint(renderer, p.x, p.y+1);
 	SDL_RenderDrawPoint(renderer, p.x+1, p.y+1);
+*/
+/* Radius 2 circle */
+	SDL_RenderDrawLine(renderer, p.x-1, p.y-2, p.x+1, p.y-2);
+	SDL_RenderDrawLine(renderer, p.x-2, p.y-1, p.x+2, p.y-1);
+	SDL_RenderDrawLine(renderer, p.x-2, p.y,   p.x+2, p.y);
+	SDL_RenderDrawLine(renderer, p.x-2, p.y+1, p.x+2, p.y+1);
+	SDL_RenderDrawLine(renderer, p.x-1, p.y+2, p.x+1, p.y+2);
 /* Radius 4 circle */
 /*
 	SDL_RenderDrawLine(renderer, p.x-1, p.y-3, p.x+2, p.y-3);
