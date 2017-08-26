@@ -7,7 +7,7 @@ void populate_wheel(const unsigned int, std::vector<Point>&);
 
 void (*populate)(const unsigned int, std::vector<Point>&);
 const int fps = 30;
-const unsigned int npoints = 1<<12;
+const unsigned int npoints = 1<<9;
 
 void test_tree()
 {
@@ -30,14 +30,12 @@ void test_tree()
 	for(int t=0; t<8000; ++t){
 		Quadtree steptree(nullptr, {0,0,1024,768});
 		for(auto &p: points){
-			steptree.insert(&p);
 			drawPoint(p);
-		}
-		update();
-		steptree.calcCollisions();
-		for(auto &p: points){
+			steptree.insert(&p);
 			p.step();
 		}
+		steptree.calcCollisions();
+		update();
 //		drawQuadtree(&steptree);
 		pause(1000.0/fps);
 		poll();
